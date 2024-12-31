@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: radial-gradient(circle, #0d0d2b, #000000);
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+        .stars {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            opacity: 0.7;
+            animation: twinkle 5s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        #countdown {
+            font-size: 3em;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #newYearMessage {
+            display: none;
+            text-align: center;
+            font-size: 4em;
+            font-weight: bold;
+            color: gold;
+            animation: zoomIn 3s forwards;
+        }
+        @keyframes zoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            animation: explode 1.5s ease-out forwards;
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown">Countdown: 00d 00h 00m 00s</div>
+    <div id="newYearMessage">🎆 Happy New Year 2025! 🎇</div>
+
+    <script>
+        // Countdown Timer
+        const countdownElement = document.getElementById('countdown');
+        const newYearMessage = document.getElementById('newYearMessage');
+        const starsCount = 100; // Number of stars
+
+        const targetDate = new Date(new Date().getFullYear() + 1, 0, 1).getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdownElement.textContent = `Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                countdownElement.style.display = 'none';
+                newYearMessage.style.display = 'block';
+                launchFireworks();
+            }
+        }
+
+        const timer = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Fireworks Effect
+        function launchFireworks() {
+            for (let i = 0; i < 50; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = Math.random() * 100 + 'vw';
+                firework.style.top = Math.random() * 100 + 'vh';
+                firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                document.body.appendChild(firework);
+
+                setTimeout(() => firework.remove(), 1500);
+            }
+
+            setInterval(() => {
+                for (let i = 0; i < 50; i++) {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + 'vw';
+                    firework.style.top = Math.random() * 100 + 'vh';
+                    firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                    document.body.appendChild(firework);
+
+                    setTimeout(() => firework.remove(), 1500);
+                }
+            }, 2000);
+        }
+
+        // Create Background Stars
+        function createStars() {
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'stars';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
+</body>
+</html>
